@@ -11,3 +11,6 @@ class Lesson(models.Model):
     link_to_video = models.URLField(verbose_name='link_to_lesson_video', max_length=250, **NULLABLE)
     lesson_course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_course',
                                       verbose_name='lesson_course')
+    
+    def __str__(self):
+        return f'{self.lesson_title}'
