@@ -7,14 +7,14 @@ from courses.serializers import CourseSerializer, LessonSerializer, LessonDetail
 
 
 class CourseViewSet(viewsets.ModelViewSet):
-    serializer_class = CourseSerializer
+    default_serializer = CourseSerializer
     queryset = Course.objects.all()
+    serializers = {
+        'retrieve': CourseDetailSerializer
+    }
 
-    def retrieve(self, request, *args, **kwargs):
-        queryset = Course.objects.all()
-        course = get_object_or_404(queryset, pk=kwargs['pk'])
-        serializer = CourseDetailSerializer(course)
-        return Response(serializer.data)
+    def get_serializer_class(self):
+        return self.serializers.get(self.action, self.default_serializer)
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
