@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import SlugRelatedField
 
-from courses.models import Course, Lesson
+from courses.models import Lesson, Course
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -25,24 +24,3 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         fields = (
             'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course',
         )
-
-
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
-
-
-class CourseDetailSerializer(serializers.ModelSerializer):
-    lessons_count = SerializerMethodField()
-    lessons = SerializerMethodField()
-
-    class Meta:
-        model = Course
-        fields = ['course_title', 'lessons_count', 'lessons',]
-
-    def get_lessons_count(self, course):
-        return Lesson.objects.filter(lesson_course=course).count()
-
-    def get_lessons(self, course):
-        return LessonListSerializer(Lesson.objects.filter(lesson_course=course), many=True).data

@@ -1,20 +1,7 @@
-from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, generics
-from rest_framework.response import Response
+from rest_framework import generics
 
-from courses.models import Course, Lesson
-from courses.serializers import CourseSerializer, LessonSerializer, LessonDetailSerializer, CourseDetailSerializer
-
-
-class CourseViewSet(viewsets.ModelViewSet):
-    default_serializer = CourseSerializer
-    queryset = Course.objects.all()
-    serializers = {
-        'retrieve': CourseDetailSerializer
-    }
-
-    def get_serializer_class(self):
-        return self.serializers.get(self.action, self.default_serializer)
+from courses.models import Lesson
+from courses.serializers import LessonSerializer, LessonDetailSerializer
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
