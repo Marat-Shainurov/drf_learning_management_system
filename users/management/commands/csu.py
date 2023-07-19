@@ -7,9 +7,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         user = User(
-            email='m_shainurov@mail.ru',
-            first_name='Marat',
-            last_name='Shainurov',
+            email='moderator@mail.ru',
+            first_name='New_name',
+            last_name='New_surname',
             is_staff=True,
             is_superuser=True,
             is_active=True,
