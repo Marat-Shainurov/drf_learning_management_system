@@ -1,0 +1,208 @@
+[
+  {
+    "model": "courses.course",
+    "pk": 1,
+    "fields": {
+      "course_title": "Course 1",
+      "course_preview": "",
+      "course_description": null,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 3,
+    "fields": {
+      "course_title": "Course 2",
+      "course_preview": "",
+      "course_description": null,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 4,
+    "fields": {
+      "course_title": "Course New",
+      "course_preview": "",
+      "course_description": null,
+      "user": 5
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 5,
+    "fields": {
+      "course_title": "Course New New",
+      "course_preview": "",
+      "course_description": null,
+      "user": 5
+    }
+  },
+  {
+    "model": "courses.course",
+    "pk": 6,
+    "fields": {
+      "course_title": "Course New test",
+      "course_preview": "",
+      "course_description": null,
+      "user": 5
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 2,
+    "fields": {
+      "lesson_title": "Lesson 2",
+      "lesson_description": "Cool lesson",
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 1,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 3,
+    "fields": {
+      "lesson_title": "Lesson 3",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 1,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 4,
+    "fields": {
+      "lesson_title": "Lesson 4",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 3,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 5,
+    "fields": {
+      "lesson_title": "Lesson 5",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 1,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 6,
+    "fields": {
+      "lesson_title": "Lesson 6",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 3,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 7,
+    "fields": {
+      "lesson_title": "Lesson 7!",
+      "lesson_description": "Great lesson 10",
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 3,
+      "user": 1
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 8,
+    "fields": {
+      "lesson_title": "Lesson 15",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 3,
+      "user": null
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 9,
+    "fields": {
+      "lesson_title": "Lesson 16",
+      "lesson_description": null,
+      "lesson_preview": "",
+      "link_to_video": null,
+      "lesson_course": 3,
+      "user": 5
+    }
+  },
+  {
+    "model": "courses.payment",
+    "pk": 1,
+    "fields": {
+      "payment_sum": 100000,
+      "payment_date": "2023-07-13T18:04:38.762Z",
+      "payment_type": "cash",
+      "paid_course": 1,
+      "paid_lesson": null,
+      "payment_user": 1
+    }
+  },
+  {
+    "model": "courses.payment",
+    "pk": 2,
+    "fields": {
+      "payment_sum": 110000,
+      "payment_date": "2023-07-13T18:07:38.762Z",
+      "payment_type": "transfer",
+      "paid_course": 1,
+      "paid_lesson": null,
+      "payment_user": 1
+    }
+  },
+  {
+    "model": "courses.payment",
+    "pk": 3,
+    "fields": {
+      "payment_sum": 120000,
+      "payment_date": "2023-07-13T18:08:38.762Z",
+      "payment_type": "cash",
+      "paid_course": 3,
+      "paid_lesson": null,
+      "payment_user": 1
+    }
+  },
+  {
+    "model": "courses.payment",
+    "pk": 4,
+    "fields": {
+      "payment_sum": 115000,
+      "payment_date": "2023-07-13T18:10:38.762Z",
+      "payment_type": "transfer",
+      "paid_course": null,
+      "paid_lesson": 2,
+      "payment_user": 1
+    }
+  },
+  {
+    "model": "courses.payment",
+    "pk": 5,
+    "fields": {
+      "payment_sum": 115000,
+      "payment_date": "2023-07-13T18:12:38.762Z",
+      "payment_type": "transfer",
+      "paid_course": null,
+      "paid_lesson": 5,
+      "payment_user": 1
+    }
+  }
+]

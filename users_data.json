@@ -1,0 +1,44 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$Jw3r9r0dvFrGLaSTwSQOPZ$Z3r6yI7nAkp3wzYu0jJz/8JTcufum/EkAsVJOOcFg3A=",
+      "last_login": "2023-07-10T19:21:28.448Z",
+      "is_superuser": true,
+      "first_name": "Marat",
+      "last_name": "Shainurov",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-07-10T19:21:17.672Z",
+      "email": "m_shainurov@mail.ru",
+      "phone": null,
+      "avatar": "",
+      "city": null,
+      "role": "member",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$UYtJwpuX9bn4otEKTuDTNI$EkiB49BCo71Whd3dT176E+nwdmjwGKon106nFdXNCug=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "New_name",
+      "last_name": "New_surname",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-07-19T16:40:18Z",
+      "email": "moderator@mail.ru",
+      "phone": null,
+      "avatar": "",
+      "city": null,
+      "role": "moderator",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
