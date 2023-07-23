@@ -19,9 +19,10 @@ class CourseViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         return self.serializers.get(self.action, self.default_serializer)
 
-    def create(self, request, *args, **kwargs):
-        request.data['user'] = request.user.pk
-        return super().create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        new_data = serializer.save()
+        new_data.user = self.request.user
+        new_data.save()
 
     def list(self, request, *args, **kwargs):
         user = self.request.user
@@ -43,4 +44,3 @@ class CourseViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
-
