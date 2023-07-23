@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from courses.models import Course
+from courses.paginators import MainPagination
 from courses.permissions import IsModerator, IsOwner
 from courses.serializers import CourseSerializer, CourseDetailSerializer
 
@@ -13,6 +14,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializers = {
         'retrieve': CourseDetailSerializer
     }
+    pagination_class = MainPagination
 
     def get_serializer_class(self):
         return self.serializers.get(self.action, self.default_serializer)
@@ -25,6 +27,12 @@ class CourseViewSet(viewsets.ModelViewSet):
         user = self.request.user
         queryset = self.filter_queryset(self.get_queryset().filter(user=user))
         serializer = self.get_serializer(queryset, many=True)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
         return Response(serializer.data)
 
     def get_permissions(self):

@@ -18,12 +18,13 @@ urlpatterns = [
     path('courses/lessons/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='lessons_update'),
     path('courses/lessons/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='lessons_delete'),
 
-    # payment urls
+    # payments urls
     path('courses/payments/create/', PaymentCreateAPIView.as_view(), name='payments_create'),
     path('courses/payments/', PaymentListAPIView.as_view(), name='payments_list'),
     path('courses/payments/detail/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payments_detail'),
 
-    # subscription urls
+    # subscriptions urls
     path('courses/subscriptions/create/', SubscriptionCreateAPIView.as_view(), name='subscription_create'),
     path('courses/subscriptions/delete/<int:pk>', SubscriptionDestroyAPIView.as_view(), name='subscription_delete'),
+
 ] + router.urls
