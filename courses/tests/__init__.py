@@ -1,4 +1,4 @@
-from .subscription_tests import SubscriptionCreateTestCase, SubscriptionDeleteTestCase
+from .subscription_tests import SubscriptionTestCase
 from .lesson_tests import LessonCRUDTestCases
 
-__all__ = ['SubscriptionCreateTestCase', 'SubscriptionDeleteTestCase', 'LessonCRUDTestCases']
+__all__ = ['SubscriptionTestCase', 'LessonCRUDTestCases']
