@@ -8,3 +8,10 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
+
+class PaymentCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Payment
+        fields = ['payment_sum', 'payment_date', 'payment_type', 'paid_course', 'paid_lesson', 'payment_user']
