@@ -25,5 +25,5 @@ class LessonDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = (
-            'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course',
+            'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course', 'price'
         )

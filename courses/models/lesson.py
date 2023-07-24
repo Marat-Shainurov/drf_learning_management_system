@@ -14,6 +14,8 @@ class Lesson(models.Model):
                                       verbose_name='lesson_course')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='lesson_user',
                                     **NULLABLE)
+    price = models.PositiveIntegerField(default=0, verbose_name='lesson_price')
+
 
     def __str__(self):
         return f'{self.lesson_title}'
