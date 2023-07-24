@@ -12,7 +12,6 @@ class SubscriptionTestCase(APITestCase):
         self.user_data = {'email': 'test_email@mail.com', "password": "123", "role": UserRoles.MODERATOR}
         self.user = User.objects.create(**self.user_data)
         self.client.force_authenticate(user=self.user)
-
         self.course = Course.objects.create(course_title="test course")
 
     def test_create_subscription(self):
@@ -22,12 +21,11 @@ class SubscriptionTestCase(APITestCase):
 
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
 
-        self.assertEquals(response.json(), {'id': 1, 'user': 1, 'course': 1})
+        self.assertEquals(response.json(), {'id': 1, 'user': self.user.pk, 'course': self.course.pk})
 
     def test_delete_subscription(self):
-        Subscription.objects.create(user=self.user, course=self.course)
-
-        response = self.client.delete(reverse('courses:subscription_delete', kwargs={"pk": 1}))
+        subscription = Subscription.objects.create(user=self.user, course=self.course)
+        response = self.client.delete(reverse('courses:subscription_delete', kwargs={"pk": subscription.pk}))
 
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
 
