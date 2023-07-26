@@ -21,6 +21,9 @@ class Payment(models.Model):
                                     related_name='lesson', **NULLABLE)
     payment_user = models.ForeignKey(User, verbose_name='payment_user', related_name='user', on_delete=models.CASCADE,
                                      **NULLABLE)
+    payment_url = models.URLField(verbose_name='payment_url', max_length=500, **NULLABLE)
+    is_paid = models.BooleanField(verbose_name='payment_status', default=False)
+    payment_id = models.CharField(verbose_name='payment_id', max_length=250, **NULLABLE)
 
     def __str__(self):
         return f'{self.payment_user}, {self.paid_lesson if self.paid_lesson else self.paid_course}, {self.payment_sum}'
