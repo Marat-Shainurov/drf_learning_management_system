@@ -13,6 +13,11 @@ from courses.services import create_product, create_price, create_payment
 
 
 class PaymentCreateAPIView(generics.CreateAPIView):
+    """
+    Creates a new Payment object, assigning self.request.user as the object's user.
+    Launches payment status tracking (the 'is_paid' field), via crontabs (launch_payment_tracking custom command).
+    APIView's serializer - PaymentCreateSerializer.
+    """
     serializer_class = PaymentCreateSerializer
 
     def perform_create(self, serializer):
@@ -42,6 +47,10 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         call_command('launch_payment_tracking', f'{new_payment.pk}')
 
 class PaymentListAPIView(generics.ListAPIView):
+    """
+    Returns a list of payments.
+    APIView's serializer - PaymentSerializer.
+    """
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
     filter_backends = [DjangoFilterBackend, OrderingFilter]
@@ -50,5 +59,9 @@ class PaymentListAPIView(generics.ListAPIView):
 
 
 class PaymentRetrieveAPIView(generics.RetrieveAPIView):
+    """
+    Returns the Payment model's object.
+    APIView's serializer - PaymentSerializer.
+    """
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()

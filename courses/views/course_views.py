@@ -9,6 +9,7 @@ from courses.serializers import CourseSerializer, CourseDetailSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """ ViewSet for the Course model """
     default_serializer = CourseSerializer
     queryset = Course.objects.all()
     serializers = {
@@ -25,6 +26,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         new_data.save()
 
     def list(self, request, *args, **kwargs):
+        """ Returns a list of courses, with MainPagination pagination settings """
         user = self.request.user
         queryset = self.filter_queryset(self.get_queryset().filter(user=user))
         serializer = self.get_serializer(queryset, many=True)
