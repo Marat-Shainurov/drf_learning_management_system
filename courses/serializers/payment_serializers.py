@@ -4,14 +4,13 @@ from courses.models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Payment
         fields = '__all__'
 
 
 class PaymentCreateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Payment
-        fields = ['payment_sum', 'payment_date', 'payment_type', 'paid_course', 'paid_lesson', 'payment_user']
+        fields = ['payment_sum', 'payment_date', 'payment_type', 'paid_course', 'paid_lesson', 'payment_user',
+                  'payment_url', 'payment_id', 'is_paid']
