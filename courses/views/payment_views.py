@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework import generics
@@ -38,6 +39,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             new_payment.payment_id = payment['id']
             new_payment.save()
 
+        call_command('launch_payment_tracking', f'{new_payment.pk}')
 
 class PaymentListAPIView(generics.ListAPIView):
     serializer_class = PaymentSerializer

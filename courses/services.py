@@ -1,4 +1,5 @@
 import stripe
+from django.core.management import call_command
 
 
 def create_product(new_payment_product):
@@ -35,3 +36,8 @@ def get_payment_status(payment_id):
         f"{payment_id}",
     )
     return payment_info['payment_status'] == 'paid'
+
+def set_pay_status(payment_object):
+    if get_payment_status(payment_object.payment_id):
+        payment_object.is_paid = True
+        call_command('remove_payment_tracking', f'{payment_object.pk}')
