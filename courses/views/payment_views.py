@@ -9,13 +9,13 @@ from courses.models import Payment
 from courses.serializers import PaymentSerializer, PaymentCreateSerializer
 import stripe
 
-from courses.services import create_product, create_price, create_payment
+from courses.services import create_product, create_price, create_payment, set_pay_status_schedule
 
 
 class PaymentCreateAPIView(generics.CreateAPIView):
     """
     Creates a new Payment object, assigning self.request.user as the object's user.
-    Launches payment status tracking (the 'is_paid' field), via crontabs (launch_payment_tracking custom command).
+    Launches payment status tracking (the 'is_paid' field), via a periodic celery task.
     APIView's serializer - PaymentCreateSerializer.
     """
     serializer_class = PaymentCreateSerializer
@@ -44,7 +44,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             new_payment.payment_id = payment['id']
             new_payment.save()
 
-        call_command('launch_payment_tracking', f'{new_payment.pk}')
+        set_pay_status_schedule(new_payment.pk)
 
 class PaymentListAPIView(generics.ListAPIView):
     """
