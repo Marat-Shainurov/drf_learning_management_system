@@ -14,6 +14,24 @@ class SubscriptionCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class SubscriptionListAPIView(generics.ListAPIView):
+    """
+    Returns a list of the Subscription model objects.
+    """
+    serializer_class = SubscriptionSerializer
+    queryset = Subscription.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class SubscriptionUpdateAPIView(generics.UpdateAPIView):
+    """
+    Updates Subscription objects.
+    """
+    serializer_class = SubscriptionSerializer
+    queryset = Subscription.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
 class SubscriptionDestroyAPIView(generics.DestroyAPIView):
     """
     Deletes Subscription objects.
