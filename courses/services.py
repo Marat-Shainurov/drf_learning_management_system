@@ -1,10 +1,5 @@
-import json
-from datetime import datetime, timedelta
-
 import stripe
 from django.conf import settings
-from django.core.management import call_command
-from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 
 def create_product(new_payment_product) -> dict:
@@ -46,27 +41,3 @@ def get_payment_status(payment_id) -> bool:
         f"{payment_id}",
     )
     return payment_info['payment_status'] == 'paid'
-
-# def set_pay_status(payment_object) -> None:
-#     """Set True or False to the 'is_paid' field of the Payment model's objects depending on the payment status."""
-#     print(f"Payment status of {payment_object.payment_id} -", get_payment_status(payment_object.payment_id))
-#     if get_payment_status(payment_object.payment_id):
-#         payment_object.is_paid = True
-#         call_command('remove_payment_tracking', f'{payment_object.pk}')
-
-
-def set_pay_status_schedule(payment_id) -> None:
-
-    schedule, created = IntervalSchedule.objects.get_or_create(
-        every=1,
-        period=IntervalSchedule.MINUTES,
-    )
-
-    PeriodicTask.objects.create(
-        interval=schedule,
-        name='Set payment status',
-        task='courses.tasks.set_pay_status',
-        args=json.dumps([payment_id,]),
-        kwargs={},
-        expires=datetime.utcnow() + timedelta(seconds=30)
-    )

@@ -9,7 +9,8 @@ from courses.models import Payment
 from courses.serializers import PaymentSerializer, PaymentCreateSerializer
 import stripe
 
-from courses.services import create_product, create_price, create_payment, set_pay_status_schedule
+from courses.services import create_product, create_price, create_payment
+from courses.tasks import set_pay_status_schedule
 
 
 class PaymentCreateAPIView(generics.CreateAPIView):

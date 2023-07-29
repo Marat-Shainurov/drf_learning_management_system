@@ -1,6 +1,10 @@
+import json
+from datetime import timedelta, datetime
+
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from courses.models import Subscription, Course, Payment
 from courses.services import get_payment_status
@@ -18,12 +22,26 @@ def inform_subscribers_course_upd(course_pk):
         recipient_list=subscribers,
     )
 
+
 @shared_task
 def set_pay_status(payment_id) -> None:
     """Sets True or False to the 'is_paid' field of the Payment model's objects depending on the payment status."""
-    print(f"Payment status of {payment_id} -", get_payment_status(payment_id))
+    print(f'Status of payment_id - {get_payment_status(payment_id)}')
     if get_payment_status(payment_id):
         Payment.objects.get(pk=payment_id).is_paid = True
-        print('Is paid!')
-    print('Still unpaid')
 
+
+def set_pay_status_schedule(payment_id) -> None:
+    schedule, created = IntervalSchedule.objects.get_or_create(
+        every=1,
+        period=IntervalSchedule.DAYS,
+    )
+
+    PeriodicTask.objects.create(
+        interval=schedule,
+        name=f'Set payment status {payment_id}',
+        task='courses.tasks.set_pay_status',
+        args=json.dumps([payment_id, ]),
+        kwargs={},
+        expires=datetime.utcnow() + timedelta(seconds=30)
+    )
