@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-lq56of-kh8a#jjn#cwooyh(3_(b8l3(@-lwa*4^m)ir-yfao9o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'drf_lms',
         'USER': 'postgres',
         'PASSWORD': os.getenv('DATABASES_PASSWORD'),
-        'HOST': 'db'
+        # 'HOST': 'db'
     }
 }
 
