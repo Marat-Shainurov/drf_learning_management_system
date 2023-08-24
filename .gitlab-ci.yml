@@ -4,7 +4,7 @@ stages:
 Deploy to stage:
   stage: deploy
   script:
-    - cp $ENV_stage .env
+    - cp $ENV_STAGE .env
   only:
     - main
   tags:
