@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from courses.models import Lesson
 from courses.paginators import MainPagination
-from courses.serializers import LessonSerializer, LessonDetailSerializer
+from courses.serializers import LessonSerializer, LessonDetailSerializer, LessonCreateUpdateSerializer
 from courses.permissions import IsOwner, IsModerator
 
 
@@ -12,7 +12,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
     Creates a new Lesson object, assigning self.request.user as the object's user.
     APIView's serializer - LessonSerializer.
     """
-    serializer_class = LessonSerializer
+    serializer_class = LessonCreateUpdateSerializer
     permission_classes = [IsAuthenticated, IsModerator]
 
     def perform_create(self, serializer):
@@ -27,7 +27,7 @@ class LessonListAPIView(generics.ListAPIView):
     The list is filtered by user=self.request.user.
     APIView's serializer - LessonSerializer.
     """
-    serializer_class = LessonSerializer
+    serializer_class = LessonDetailSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
     pagination_class = MainPagination
@@ -52,7 +52,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
     Updates the Lesson model's object.
     APIView's serializer - LessonSerializer.
     """
-    serializer_class = LessonSerializer
+    serializer_class = LessonCreateUpdateSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsOwner | IsModerator]
 

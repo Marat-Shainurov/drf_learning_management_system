@@ -12,10 +12,13 @@ class Lesson(models.Model):
     link_to_video = models.URLField(verbose_name='link_to_lesson_video', max_length=250, **NULLABLE)
     lesson_course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_course',
                                       verbose_name='lesson_course')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='lesson_user',
-                                    **NULLABLE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='lesson_user',
+                             **NULLABLE)
     price = models.PositiveIntegerField(default=0, verbose_name='lesson_price')
-
 
     def __str__(self):
         return f'{self.lesson_title}'
+
+    class Meta:
+        verbose_name = 'Lesson'
+        verbose_name_plural = 'Lessons'

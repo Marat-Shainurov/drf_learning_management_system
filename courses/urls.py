@@ -11,22 +11,21 @@ router = DefaultRouter()
 router.register(r'courses', CourseViewSet, basename='courses')
 
 urlpatterns = [
-
     # lessons urls
-    path('courses/lessons/create/', LessonCreateAPIView.as_view(), name='lessons_create'),
-    path('courses/lessons/', LessonListAPIView.as_view(), name='lessons_list'),
-    path('courses/lessons/detail/<int:pk>/', LessonRetrieveAPIView.as_view(), name='lessons_detail'),
-    path('courses/lessons/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='lessons_update'),
-    path('courses/lessons/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='lessons_delete'),
+    path('lessons/create/', LessonCreateAPIView.as_view(), name='lessons_create'),
+    path('lessons/', LessonListAPIView.as_view(), name='lessons_list'),
+    path('lessons/get/<int:pk>/', LessonRetrieveAPIView.as_view(), name='lessons_detail'),
+    path('lessons/update/<int:pk>/', LessonUpdateAPIView.as_view(), name='lessons_update'),
+    path('lessons/delete/<int:pk>/', LessonDeleteAPIView.as_view(), name='lessons_delete'),
 
     # payments urls
-    path('courses/payments/create/', PaymentCreateAPIView.as_view(), name='payments_create'),
-    path('courses/payments/', PaymentListAPIView.as_view(), name='payments_list'),
-    path('courses/payments/detail/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payments_detail'),
+    path('payments/create/', PaymentCreateAPIView.as_view(), name='payments_create'),
+    path('payments/', PaymentListAPIView.as_view(), name='payments_list'),
+    path('payments/detail/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payments_detail'),
 
     # subscriptions urls
-    path('courses/subscriptions/create/', SubscriptionCreateAPIView.as_view(), name='subscription_create'),
-    path('courses/subscriptions/update/<int:pk>/', SubscriptionUpdateAPIView.as_view(), name='subscription_update'),
-    path('courses/subscriptions/', SubscriptionListAPIView.as_view(), name='subscription_list'),
-    path('courses/subscriptions/delete/<int:pk>/', SubscriptionDestroyAPIView.as_view(), name='subscription_delete'),
+    path('subscriptions/create/', SubscriptionCreateAPIView.as_view(), name='subscription_create'),
+    path('subscriptions/update/<int:pk>/', SubscriptionUpdateAPIView.as_view(), name='subscription_update'),
+    path('subscriptions/', SubscriptionListAPIView.as_view(), name='subscription_list'),
+    path('subscriptions/delete/<int:pk>/', SubscriptionDestroyAPIView.as_view(), name='subscription_delete'),
 ] + router.urls

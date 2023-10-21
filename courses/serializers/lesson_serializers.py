@@ -5,18 +5,20 @@ from courses.models import Lesson, Course
 from courses.validators import LinkValidator
 
 
-class LessonSerializer(serializers.ModelSerializer):
-
+class LessonCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = (
+            'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course', 'user', 'price')
         validators = [LinkValidator(field='link_to_video')]
 
 
-class LessonListSerializer(serializers.ModelSerializer):
+class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['lesson_title', 'lesson_description', 'link_to_video']
+        fields = (
+            'id', 'lesson_title', 'link_to_video', 'user', 'price',)
+        validators = [LinkValidator(field='link_to_video')]
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
@@ -25,5 +27,5 @@ class LessonDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = (
-            'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course', 'price'
-        )
+            'id', 'lesson_title', 'lesson_description', 'lesson_preview', 'link_to_video', 'lesson_course', 'user',
+            'price',)

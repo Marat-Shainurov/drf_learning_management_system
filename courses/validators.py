@@ -11,6 +11,7 @@ class LinkValidator:
 
     def __call__(self, value):
         tmp_val = dict(value).get(self.field)
-        match = re.search(LinkValidator.ALLOWED_SOURCE, tmp_val)
-        if not match:
-            raise ValidationError('This source is not allowed!')
+        if tmp_val:
+            match = re.search(LinkValidator.ALLOWED_SOURCE, tmp_val)
+            if not match:
+                raise ValidationError('This source is not allowed!')
