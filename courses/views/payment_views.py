@@ -23,13 +23,8 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         new_payment = serializer.save()
-
-        if not new_payment.paid_course and not new_payment.paid_lesson:
-            raise ValidationError("Either paid_course or paid_lesson must be selected.")
-
         new_payment.payment_user = self.request.user
         new_payment.payment_sum = new_payment.paid_course.price if new_payment.paid_course else new_payment.paid_lesson.price
-        new_payment_product = new_payment.paid_course if new_payment.paid_course else new_payment.paid_lesson
         new_payment.save()
 
         if new_payment.payment_type == 'cash':
@@ -37,15 +32,16 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             new_payment.save()
         else:
             stripe.api_key = settings.STRIPE_API_KEY
-            product = create_product(new_payment_product)
+            payment_product = new_payment.paid_course if new_payment.paid_course else new_payment.paid_lesson
+            product = create_product(payment_product)
             price = create_price(new_payment, product)
-            payment = create_payment(price)
+            stripe_payment = create_payment(price)
 
-            new_payment.payment_url = payment['url']
-            new_payment.payment_id = payment['id']
+            new_payment.payment_url = stripe_payment['url']
+            new_payment.payment_id = stripe_payment['id']
             new_payment.save()
+            set_pay_status_schedule(new_payment.pk)
 
-        set_pay_status_schedule(new_payment.pk)
 
 class PaymentListAPIView(generics.ListAPIView):
     """

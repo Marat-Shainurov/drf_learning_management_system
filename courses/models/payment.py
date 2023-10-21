@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 from courses.models import Course, Lesson
 from users.models import User
@@ -19,8 +20,8 @@ class Payment(models.Model):
                                     related_name='course', **NULLABLE)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, verbose_name='paid_lesson',
                                     related_name='lesson', **NULLABLE)
-    payment_user = models.ForeignKey(User, verbose_name='payment_user', related_name='user', on_delete=models.CASCADE,
-                                     **NULLABLE)
+    payment_user = models.ForeignKey(User, verbose_name='payment_user', related_name='payment_user',
+                                     on_delete=models.SET_NULL, **NULLABLE)
     payment_url = models.URLField(verbose_name='payment_url', max_length=500, **NULLABLE)
     is_paid = models.BooleanField(verbose_name='payment_status', default=False)
     payment_id = models.CharField(verbose_name='payment_id', max_length=250, **NULLABLE)
@@ -31,3 +32,13 @@ class Payment(models.Model):
     class Meta:
         verbose_name = 'Payment'
         verbose_name_plural = 'Payments'
+
+    def clean(self):
+        if self.paid_lesson and self.paid_course:
+            raise ValidationError("Either paid_course or paid_lesson must be selected.")
+        if not self.paid_course and not self.paid_lesson:
+            raise ValidationError("Neither paid_course nor paid_lesson are selected.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
