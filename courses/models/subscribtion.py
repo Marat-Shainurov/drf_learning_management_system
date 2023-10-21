@@ -6,9 +6,9 @@ from courses.models import Course
 
 class Subscription(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='subscribed_user', on_delete=models.CASCADE,
-                             related_name='subscribed_user')
+                             related_name='user_subscriptions')
     course = models.ForeignKey(Course, verbose_name='subscription_course', on_delete=models.CASCADE,
-                               related_name='subscription_course')
+                               related_name='course_subscriptions')
 
     def __str__(self):
         return f'{self.user} subscribed to {self.course}'
