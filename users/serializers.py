@@ -3,6 +3,7 @@ from datetime import datetime
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
+from courses.serializers import SubscriptionSerializerShort
 from users.models import User
 
 
@@ -15,10 +16,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     last_login = SerializerMethodField()
     days_since_last_login = SerializerMethodField()
+    user_subscriptions = SubscriptionSerializerShort(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'phone', 'avatar', 'city', 'role', 'last_login', 'days_since_last_login')
+        fields = (
+            'id', 'email', 'phone', 'avatar', 'city', 'role', 'last_login', 'days_since_last_login',
+            'user_subscriptions')
 
     @staticmethod
     def get_last_login(user):
