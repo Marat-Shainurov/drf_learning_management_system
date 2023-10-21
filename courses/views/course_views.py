@@ -2,24 +2,23 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from courses.models import Course, Subscription
+from courses.models import Course
 from courses.paginators import MainPagination
 from courses.permissions import IsModerator, IsOwner
-from courses.serializers import CourseSerializer, CourseDetailSerializer
+from courses.serializers import CourseDetailSerializer, CourseCreateUpdateSerializer
 from courses.tasks import inform_subscribers_course_upd
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     """ ViewSet for the Course model """
-    default_serializer = CourseSerializer
     queryset = Course.objects.all()
-    serializers = {
-        'retrieve': CourseDetailSerializer
-    }
     pagination_class = MainPagination
 
     def get_serializer_class(self):
-        return self.serializers.get(self.action, self.default_serializer)
+        if self.request.method in ('POST', 'PUT', 'PATCH'):
+            return CourseCreateUpdateSerializer
+        else:
+            return CourseDetailSerializer
 
     def perform_create(self, serializer):
         new_data = serializer.save()

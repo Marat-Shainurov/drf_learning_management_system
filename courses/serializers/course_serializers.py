@@ -8,7 +8,13 @@ from courses.serializers.lesson_serializers import LessonListSerializer
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = ('id', 'course_title', 'price')
+
+
+class CourseCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('course_title', 'course_preview', 'course_description', 'price')
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -18,11 +24,12 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['course_title', 'lessons_count', 'lessons', 'is_user_subscribed', 'user', 'price']
+        fields = ['id', 'course_title', 'lessons_count', 'lessons', 'is_user_subscribed', 'user', 'price']
 
-    def get_lessons_count(self, course):
+    @staticmethod
+    def get_lessons_count(course):
         return Lesson.objects.filter(lesson_course=course).count()
 
-    def get_is_user_subscribed(self, course):
-        subscriptions = Subscription.objects.all()
-        return subscriptions.filter(user=course.user).exists()
+    @staticmethod
+    def get_is_user_subscribed(course):
+        return Subscription.objects.filter(user=course.user).exists()
