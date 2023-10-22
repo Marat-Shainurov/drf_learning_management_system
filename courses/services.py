@@ -1,5 +1,6 @@
 import stripe
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 from courses.models import Payment
 
@@ -36,8 +37,10 @@ def create_payment(price: dict) -> dict:
     return payment
 
 
-def get_payment_status(payment_id: str) -> bool:
+def get_payment_status(payment_pk: str) -> bool:
     """Checks whether a payment has been made or not."""
     stripe.api_key = settings.STRIPE_API_KEY
+    payment_obj = get_object_or_404(Payment, pk=payment_pk)
+    payment_id = payment_obj.payment_id
     payment_info = stripe.checkout.Session.retrieve(payment_id)
     return payment_info['payment_status'] == 'paid'

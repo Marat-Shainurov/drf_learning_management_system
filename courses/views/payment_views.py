@@ -1,6 +1,4 @@
 from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.core.management import call_command
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework import generics

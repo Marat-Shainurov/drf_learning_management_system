@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 from courses.models import Subscription, Course, Payment
@@ -24,23 +25,25 @@ def inform_subscribers_course_upd(course_pk):
 
 
 @shared_task
-def set_pay_status(payment_id: str) -> None:
+def set_pay_status(payment_pk: str) -> None:
     """Sets True or False to the 'is_paid' field of the Payment model's objects depending on the payment status."""
-    if get_payment_status(payment_id):
-        Payment.objects.get(pk=payment_id).is_paid = True
+    if get_payment_status(payment_pk):
+        payment_obj = get_object_or_404(Payment, pk=payment_pk)
+        payment_obj.is_paid = True
+        payment_obj.save()
 
 
-def set_pay_status_schedule(payment_id) -> None:
+def set_pay_status_schedule(payment_pk) -> None:
     schedule, created = IntervalSchedule.objects.get_or_create(
-        every=30,
-        period=IntervalSchedule.SECONDS,
+        every=1,
+        period=IntervalSchedule.MINUTES,
     )
 
     PeriodicTask.objects.create(
         interval=schedule,
-        name=f'Set payment status for the "{payment_id}" payment',
+        name=f'Set payment status for the "{payment_pk}" payment',
         task='courses.tasks.set_pay_status',
-        args=json.dumps([payment_id, ]),
+        args=json.dumps([payment_pk, ]),
         kwargs={},
-        expires=datetime.utcnow() + timedelta(hours=8)
+        expires=datetime.utcnow() + timedelta(minutes=10)
     )

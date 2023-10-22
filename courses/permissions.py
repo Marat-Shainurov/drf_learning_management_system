@@ -11,6 +11,7 @@ class IsOwner(BasePermission):
             return True
         return False
 
+
 class IsModerator(BasePermission):
     message = "You are not a moderator!"
 
@@ -18,4 +19,3 @@ class IsModerator(BasePermission):
         if request.user.role == UserRoles.MODERATOR:
             return True
         return False
-
