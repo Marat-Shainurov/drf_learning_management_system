@@ -24,7 +24,8 @@ class PaymentCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         new_payment = serializer.save()
         new_payment.payment_user = self.request.user
-        new_payment.payment_sum = new_payment.paid_course.price if new_payment.paid_course else new_payment.paid_lesson.price
+        new_payment.payment_sum = new_payment.paid_course.price if new_payment.paid_course \
+            else new_payment.paid_lesson.price
         new_payment.save()
 
         if new_payment.payment_type == 'cash':

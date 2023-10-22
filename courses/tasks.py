@@ -24,24 +24,23 @@ def inform_subscribers_course_upd(course_pk):
 
 
 @shared_task
-def set_pay_status(payment_id) -> None:
+def set_pay_status(payment_id: str) -> None:
     """Sets True or False to the 'is_paid' field of the Payment model's objects depending on the payment status."""
-    print(f'Status of payment_id - {get_payment_status(payment_id)}')
     if get_payment_status(payment_id):
         Payment.objects.get(pk=payment_id).is_paid = True
 
 
 def set_pay_status_schedule(payment_id) -> None:
     schedule, created = IntervalSchedule.objects.get_or_create(
-        every=1,
-        period=IntervalSchedule.DAYS,
+        every=30,
+        period=IntervalSchedule.SECONDS,
     )
 
     PeriodicTask.objects.create(
         interval=schedule,
-        name=f'Set payment status {payment_id}',
+        name=f'Set payment status for the "{payment_id}" payment',
         task='courses.tasks.set_pay_status',
         args=json.dumps([payment_id, ]),
         kwargs={},
-        expires=datetime.utcnow() + timedelta(seconds=30)
+        expires=datetime.utcnow() + timedelta(hours=8)
     )
