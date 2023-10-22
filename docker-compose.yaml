@@ -4,27 +4,76 @@ services:
 
   db:
     image: postgres
-    container_name: db_app
+    container_name: db_app_lms
     environment:
       POSTGRES_PASSWORD: mysecretpassword
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_DB: drf_lms
+    volumes:
+      - postgres_data_lms:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:7.0.2-alpine
+    container_name: redis_app_lms
+    command: redis-server --save 20 1 --loglevel warning
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data_lms:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   app:
     build: .
-    container_name: app_container
-    command: python manage.py runserver 0.0.0.0:8000
+    container_name: app_container_lms
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     ports:
       - '8000:8000'
     depends_on:
       - db
       - redis
-
-  redis:
-    image: redis:7.0.2-alpine
-    container_name: redis_app
-    command: redis-server --save 20 1 --loglevel warning
-    ports:
-      - '6379:6379'
     volumes:
-      - ./data/cache:/data
+      - ./.env:/app/.env
+
+  celery:
+    build: .
+    container_name: celery_app_lms
+    command: celery -A config worker -l INFO
+    volumes:
+      - celery_data_lms:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_LOG_LEVEL=debug
+    healthcheck:
+      test: [ "CMD", "celery", "inspect", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  celery-beat:
+    build: .
+    container_name: celery_beat_app_lms
+    volumes:
+      - celery_beat_data_lms:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+      celery:
+        condition: service_healthy
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_LOG_LEVEL=debug
+
+volumes:
+  postgres_data_lms:
+  redis_data_lms:
+  celery_data_lms:
+  celery_beat_data_lms:
