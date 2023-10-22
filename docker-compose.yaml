@@ -58,9 +58,10 @@ services:
       timeout: 5s
       retries: 3
 
-  celery-beat:
+  celery_beat:
     build: .
     container_name: celery_beat_app_lms
+    command: celery -A config beat -l info -S django
     volumes:
       - celery_beat_data_lms:/app
     depends_on:
