@@ -43,7 +43,7 @@ You can load the fixture with several testing objects:
    - Admin interface is overridden and customized. (./users/admin.py)
 
 # Integrations
-- Integration with Stripe API has been configured to simulate of the payment process.
+- Integration with Stripe API has been configured to simulate the payment process.
 - All the stripe objects (product, price, session) are created for the Payment model objects.
 - The Stripe API documentation https://stripe.com/docs/api
 
