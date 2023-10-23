@@ -1,6 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+from courses.paginators import MainPagination
 from users.models import User
 from users.serializers import UserSerializer
 
@@ -16,3 +17,4 @@ class UsersListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
+    pagination_class = MainPagination
