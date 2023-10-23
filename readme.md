@@ -48,7 +48,7 @@ You can load the fixture with several testing objects:
 - The Stripe API documentation https://stripe.com/docs/api
 
 # Testing
-- All the courses endpoints are covered by pytest tests in courses/tests/
+- All the endpoints are covered by pytest tests in <app>/tests/
 - Run tests:\
   docker-compose exec app python manage.py test
 
