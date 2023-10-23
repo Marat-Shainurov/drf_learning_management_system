@@ -1,6 +1,7 @@
 # General description
 drf_lms is a django-rest-framework project. \
-The project is a backend part of the simple learning management system.
+The project is a backend part of the learning management system.
+Main stack: Djangorestframework, Postgresql, Redis, Celery, django-celery-beat, Stripe.
 
 # Install and usage
 1. Clone the project from https://github.com/Marat-Shainurov/drf_learning_management_system to your local machine.
